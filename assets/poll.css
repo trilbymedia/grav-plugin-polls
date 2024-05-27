@@ -1,0 +1,171 @@
+:root {
+    --form-control-color: #367CE0;
+    --form-modern-header-background: #367CE0;
+    --form-control-disabled: #959495;
+    --form-control-background: #FFFFFF;
+    --form-modern-header-color: #FFFFFF;
+    --form-modern-background: #FFFFFF;
+    --form-modern-control-background: #F3F3F3;
+}
+
+.poll__question {
+    font-weight: bold;
+    margin-bottom: 2rem;
+}
+
+.poll__container > div {
+    display: grid;
+}
+
+.poll__container .poll__options {
+    display: grid;
+    gap: 1rem;
+}
+
+.poll__container .form-control {
+    font-family: system-ui, sans-serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    line-height: 1.1;
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+}
+
+.poll__container .form-control + .form-control {
+    margin-top: 1rem;
+}
+
+.poll__container .form-control--disabled {
+    color: var(--form-control-disabled);
+    cursor: not-allowed;
+}
+
+.poll__container input[type="checkbox"] {
+    /* Add if not using autoprefixer */
+    -webkit-appearance: none;
+    /* Remove most all native input styles */
+    appearance: none;
+    /* For iOS < 15 */
+    background-color: var(--form-control-background);
+    /* Not removed via appearance */
+    margin: 0;
+
+    font: inherit;
+    color: currentColor;
+    width: 1.5rem;
+    height: 1.5rem;
+    border: 0.15rem solid currentColor;
+    border-radius: 0.15rem;
+    transform: translateY(-0.075rem);
+
+    display: grid;
+    place-content: center;
+}
+
+.poll__container input[type="checkbox"]::before {
+    content: "";
+    width: 0.65rem;
+    height: 0.65rem;
+    clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+    transform: scale(0);
+    transform-origin: bottom left;
+    transition: 120ms transform ease-in-out;
+    box-shadow: inset 1rem 1rem var(--form-control-color);
+    /* Windows High Contrast Mode */
+    background-color: CanvasText;
+}
+
+.poll__container input[type="checkbox"]:checked::before {
+    transform: scale(1);
+}
+
+.poll__container input[type="checkbox"]:focus {
+    outline: max(2px, 0.15rem) solid var(--form-control-color);
+    outline-offset: max(2px, 0.15rem);
+}
+
+.poll__container input[type="checkbox"]:checked + span {
+    color: var(--form-control-color);
+}
+
+.poll__container input[type="checkbox"]:disabled {
+    --form-control-color: var(--form-control-disabled);
+
+    color: var(--form-control-disabled);
+    cursor: not-allowed;
+}
+
+.poll__container .poll__created {
+    margin-top: 1.5rem;
+    font-size: 0.7rem;
+    color: #999;
+}
+
+.poll__container > .poll__buttons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+
+
+/** Modern Theme **/
+.poll__container.poll__theme-modern {
+    background-color: var(--form-modern-background);
+    padding: 2rem;
+    border-radius: 0.5rem;
+    margin: 0 auto;
+    box-shadow: 0px 32px 100px rgba(42, 37, 87, 0.12);
+    overflow: hidden;
+}
+
+.poll__container.poll__theme-modern .poll__question {
+    margin: -2rem -2rem 2rem -2rem;
+    background-color: var(--form-modern-header-background);
+    color: var(--form-modern-header-color);
+    padding: 2rem;
+}
+
+.poll__container.poll__theme-modern .poll__info {
+    border-radius: 0.3rem;
+    border-width: 0.15rem;
+    padding: 0.3rem 0.5rem;
+    background-color: #FEF0CF;
+    color: #7B5703;
+}
+
+.poll__container.poll__theme-modern input[type="checkbox"] {
+    background-color: var(--form-modern-control-background);
+}
+
+.poll__container.poll__theme-modern .poll__buttons button {
+    padding: 0.3rem 1.2rem;
+    border-radius: 0.3rem;
+    border-width: 0.15rem;
+    border-style: solid;
+    border-color: inherit;
+    color: inherit;
+    font-size: .9rem;
+    font-weight: 600;
+    cursor: pointer;
+    line-height: inherit;
+    height: inherit;
+    display: inline-flex;
+    background-color: var(--form-modern-control-background);
+    transition: all 0.2s;
+}
+
+.poll__container.poll__theme-modern .poll__buttons button:hover {
+    filter: brightness(120%);
+}
+
+.poll__container.poll__theme-modern .poll__buttons button.poll__submit {
+    border-color: var(--form-control-color);
+    background-color: var(--form-control-color);
+    color: var(--form-control-background);
+}
+
+.poll__container.poll__theme-modern .poll__buttons button.poll__submit:hover {
+    filter: brightness(120%);
+}

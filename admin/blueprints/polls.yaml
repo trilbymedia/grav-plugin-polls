@@ -1,0 +1,83 @@
+title: Polls
+form:
+  validation: loose
+  fields:
+    configuration_title:
+      type: section
+      title: PLUGIN_POLLS.MANAGE_POLLS
+      underline: true
+      fields:
+        polls:
+          type: list
+          label: Polls
+          style: vertical
+          fields:
+            .question:
+              type: text
+              label: Question
+              validate:
+                required: true
+            .id:
+              type: text
+              label: ID
+              validate:
+                required: true
+            .answers:
+              type: array
+              value_only: true
+              label: Answers
+            .enabled:
+              type: toggle
+              label: Enabled
+              highlight: 1
+              default: 1
+              options:
+                1: PLUGIN_ADMIN.ENABLED
+                0: PLUGIN_ADMIN.DISABLED
+              validate:
+                  type: bool
+            .max_answers:
+              type: number
+              label: Max Answers
+              size: x-small
+              default: 1
+              validate:
+                type: int
+                min: 1
+            .min_answers:
+              type: number
+              label: Min Answers
+              size: x-small
+              default: 1
+              validate:
+                type: int
+                min: 1
+            .show_hints:
+              type: toggle
+              label: Show Hints
+              highlight: 1
+              default: 1
+              options:
+                1: PLUGIN_ADMIN.ENABLED
+                0: PLUGIN_ADMIN.DISABLED
+              validate:
+                type: bool
+            .show_created:
+                type: toggle
+                label: Show Created
+                highlight: 1
+                default: 1
+                options:
+                    1: PLUGIN_ADMIN.ENABLED
+                    0: PLUGIN_ADMIN.DISABLED
+                validate:
+                    type: bool
+            .created_at:
+              type: datetime
+              label: Created
+              size: medium
+              readonly: true
+              default: 'now'
+
+
+

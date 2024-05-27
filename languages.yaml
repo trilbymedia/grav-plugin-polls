@@ -1,0 +1,10 @@
+en:
+  PLUGIN_POLLS:
+    TITLE: Polls Manager
+    MANAGE_POLLS: Manage Polls
+    ANSWER: answer
+    MAX_MIN_X_ANSWERS: 'Please choose **%s** %s:'
+    MAX_X_MIN_X_ANSWERS: 'Please choose at least **%s**, but no more than **%s** %s:'
+    CREATED_AT: 'Created: %s'
+    SUBMIT_BTN: Submit
+    RESULTS_BTN: View Results
