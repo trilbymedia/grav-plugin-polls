@@ -24,9 +24,8 @@
 
 .poll__container .form-control {
     font-family: system-ui, sans-serif;
-    font-size: 1.2rem;
+    font-size: 1rem;
     font-weight: 600;
-    line-height: 1.1;
     display: flex;
     align-items: center;
     gap: .75rem;
@@ -146,7 +145,7 @@
     border-style: solid;
     border-color: inherit;
     color: inherit;
-    font-size: .9rem;
+    font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
     line-height: inherit;
