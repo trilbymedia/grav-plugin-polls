@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const checkboxes = container.querySelectorAll('input[type="checkbox"]');
         const form = container.closest('.poll__container').querySelector('.pollform');
         const submitButton = form.querySelector('.poll__submit');
+        const resultsButton = form.querySelector('.poll__results');
         let checkedQueue = [];
 
         const updateSubmitButtonState = () => {
@@ -28,6 +29,28 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
         updateSubmitButtonState();
+
+        resultsButton.addEventListener('click', function() {
+            let callbackUrl = container.closest('.poll__container').getAttribute('data-callback') + '.json?view=results';
+
+            fetch(callbackUrl, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(json => {
+                if (json.code === 200) {
+                    container.closest('.poll__container').innerHTML = json.content;
+                } else {
+                    alert('Error: ' + json.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
     });
 
     document.querySelectorAll('.poll__container').forEach(function(container) {

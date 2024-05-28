@@ -79,13 +79,20 @@ class PollsPlugin extends Plugin
 
     public function onPageInitialized(Event $e)
     {
+        $uri = $this->grav['uri'];
         $callback = $this->config->get('plugins.polls.callback');
-        $route = $this->grav['uri']->path();
+        $route = $uri->path();
         // Process vote if appropriate
         if ($callback === $route) {
             /** @var PollsManager $polls */
             $polls = $this->grav['polls'];
-            $result = $polls->processVote();
+
+            if ($uri->query('view') === 'results') {
+                $result = $polls->showResults();
+
+            } else {
+                $result = $polls->processVote();
+            }
 
             header('Content-Type: application/json');
             echo json_encode(['code' => $result[0], 'message' => $result[1], 'content' => $result[2] ?? 'Error: missing content...']);

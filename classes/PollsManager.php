@@ -195,6 +195,11 @@ class PollsManager
         return [200, 'Vote processed', '<h1>Voted</h1>'];
     }
 
+    public function showResults()
+    {
+        return [200, 'Results processed', '<h1>Results</h1>'];
+    }
+
     public function getAnswerValue(string $answer): string
     {
         $normalized = $this->toASCII($answer);
