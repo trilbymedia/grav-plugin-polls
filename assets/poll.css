@@ -101,7 +101,7 @@
     color: #999;
 }
 
-.poll__container > .poll__buttons {
+.poll__buttons {
     display: flex;
     gap: 1rem;
     margin-top: 1.5rem;

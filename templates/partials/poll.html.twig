@@ -1,4 +1,4 @@
-<section class="poll poll__container poll__theme-{{ options.theme|default('default') }}">
+<section class="poll poll__container poll__theme-{{ options.theme|default('default') }}" data-callback="{{ url(options.callback)|e('html_attr') }}">
   <h2 class="poll__question">{{ poll.question|markdown(false) }}</h2>
   {% if poll.show_hints %}
     {% if poll.max_answers == poll.min_answers %}
@@ -7,8 +7,8 @@
       <p class="poll__info">{{ "PLUGIN_POLLS.MAX_X_MIN_X_ANSWERS"|t(poll.min_answers, poll.max_answers, "PLUGIN_POLLS.ANSWER"|t|pluralize(poll.max_answers))|markdown(false) }}</p>
     {% endif %}
   {% endif %}
-  <form>
-    <div class="poll__options" data-max-answers="{{ poll.max_answers }}">
+  <form class="pollform">
+    <div class="poll__options" data-max-answers="{{ poll.max_answers }}" data-min-answers="{{ poll.min_answers }}">
       {% for answer in poll.answers %}
       <div>
         <label class="form-control">
@@ -18,16 +18,14 @@
       </div>
       {% endfor %}
     </div>
-  </form>
-
-  <div class="poll__buttons">
-    <button class="poll__submit btn button btn-primary">{{ "PLUGIN_POLLS.SUBMIT_BTN"|t }}</button>
-    <button class="poll__results btn button">{{ "PLUGIN_POLLS.RESULTS_BTN"|t }}</button>
-  </div>
-
-  {% if poll.show_created %}
+    <div class="poll__buttons">
+      <button type="submit" class="poll__submit btn button btn-primary">{{ "PLUGIN_POLLS.SUBMIT_BTN"|t }}</button>
+      <button type="button" class="poll__results btn button">{{ "PLUGIN_POLLS.RESULTS_BTN"|t }}</button>
+    </div>
+    {% if poll.show_created %}
       <p class="poll__created">{{ "PLUGIN_POLLS.CREATED_AT"|t(poll.created_at|date(config.system.pages.dateformat.short)) }}</p>
     {% endif %}
+  </form>
 </section>
 
 {#{{ vardump(poll) }}#}

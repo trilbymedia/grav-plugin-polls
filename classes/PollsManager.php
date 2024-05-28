@@ -182,6 +182,19 @@ class PollsManager
         return [];
     }
 
+    public function processVote()
+    {
+//        if (!Utils::verifyNonce(Grav::instance()['uri']->param('nonce'), 'poll')) {
+//            return [false, 'Invalid security nonce'];
+//        }
+
+        $rawData = file_get_contents('php://input');
+        $data = json_decode($rawData, true);
+
+
+        return [200, 'Vote processed', '<h1>Voted</h1>'];
+    }
+
     public function getAnswerValue(string $answer): string
     {
         $normalized = $this->toASCII($answer);

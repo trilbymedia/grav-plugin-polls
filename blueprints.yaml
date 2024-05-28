@@ -55,7 +55,7 @@ form:
         size: medium
         label: Callback URL
         help: Callback URL to post poll results to
-        default: /polls.json
+        default: /polls
 
     twig_template:
         type: text

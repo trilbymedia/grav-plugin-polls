@@ -73,7 +73,24 @@ class PollsPlugin extends Plugin
             'onTwigSiteVariables' => ['onTwigSiteVariables', 0],
             'onShortcodeHandlers' => ['onShortcodeHandlers', 0],
             'onTwigTemplatePaths' => ['onTwigTemplatePaths', 0],
+            'onPageInitialized'   => ['onPageInitialized', 0],
         ]);
+    }
+
+    public function onPageInitialized(Event $e)
+    {
+        $callback = $this->config->get('plugins.polls.callback');
+        $route = $this->grav['uri']->path();
+        // Process vote if appropriate
+        if ($callback === $route) {
+            /** @var PollsManager $polls */
+            $polls = $this->grav['polls'];
+            $result = $polls->processVote();
+
+            header('Content-Type: application/json');
+            echo json_encode(['code' => $result[0], 'message' => $result[1], 'content' => $result[2] ?? 'Error: missing content...']);
+            exit();
+        }
     }
 
     public function onShortcodeHandlers()
