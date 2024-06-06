@@ -3,12 +3,13 @@ built_in_css: true                                # Use the built-in CSS of the 
 theme: default                                    # The layout to use for rendering the plugin (default|modern)
 
 callback: '/polls'                                # A path that the plugin will look for when processing Ajax calls
-twig_template: 'partials/poll.html.twig'          # The twig template to use for rendering the plugin
+poll_template: 'partials/poll.html.twig'          # The twig template to use for rendering the plugin
+results_template: 'partials/results.html.twig'    # The twig template to use for rendering the results
 unique_ip_check: false                            # Ensures that a particular IP can only vote once
 disable_after_vote: true                          # Disable the interaction after the user has voted
 readonly: false
 
-colors: |
+colors: |                                         # CSS Color variables for the modern theme
   --form-control-color: #367CE0;
   --form-modern-header-background: #367CE0;
   --form-control-disabled: #959495;

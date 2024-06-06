@@ -5,9 +5,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const maxChoices = parseInt(container.getAttribute('data-max-answers'));
         const minChoices = parseInt(container.getAttribute('data-min-answers'));
         const checkboxes = container.querySelectorAll('input[type="checkbox"]');
-        const form = container.closest('.poll__container').querySelector('.pollform');
+        const pollContainer = container.closest('.poll__container');
+        const form = pollContainer.querySelector('.pollform');
         const submitButton = form.querySelector('.poll__submit');
-        const resultsButton = form.querySelector('.poll__results');
+        const viewButton = form.querySelector('.poll__view');
         let checkedQueue = [];
 
         const updateSubmitButtonState = () => {
@@ -30,8 +31,10 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         updateSubmitButtonState();
 
-        resultsButton.addEventListener('click', function() {
-            let callbackUrl = container.closest('.poll__container').getAttribute('data-callback') + '.json?view=results';
+        viewButton.addEventListener('click', function() {
+            let id = pollContainer.getAttribute('data-poll-id');
+            let view = viewButton.getAttribute('data-view');
+            let callbackUrl = pollContainer.getAttribute('data-callback') + '.json?view=' + view + '&id=' + id;
 
             fetch(callbackUrl, {
                 method: 'GET',
@@ -42,9 +45,15 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(response => response.json())
             .then(json => {
                 if (json.code === 200) {
-                    container.closest('.poll__container').innerHTML = json.content;
+                    pollContainer.innerHTML = json.content;
                 } else {
-                    alert('Error: ' + json.message);
+                    let errorsDiv = pollContainer.querySelector('[data-messages] .poll__errors');
+                    if (!errorsDiv) {
+                        errorsDiv = document.createElement('div');
+                        errorsDiv.className = 'poll__errors';
+                        pollContainer.querySelector('[data-messages]').appendChild(errorsDiv);
+                    }
+                    errorsDiv.textContent = '<p>Error: ' + json.message + '</p>';
                 }
             })
             .catch(error => {
@@ -65,6 +74,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
 
                 let data = {
+                    id: form.querySelectorAll('input[name="id"]')[0].value,
+                    nonce: form.querySelectorAll('input[name="nonce"]')[0].value,
                     answers: selectedOptions
                 };
 
@@ -82,7 +93,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (json.code === 200) {
                         container.innerHTML = json.content;
                     } else {
-                        alert('Error: ' + json.message);
+                        let errorsDiv = container.querySelector('[data-messages] .poll__errors');
+                        if (!errorsDiv) {
+                            errorsDiv = document.createElement('div');
+                            errorsDiv.className = 'poll__errors';
+                            container.querySelector('[data-messages]').appendChild(errorsDiv);
+                        }
+                        errorsDiv.innerHTML = '<p>Error: ' + json.message + '</p>';
                     }
                 })
                 .catch(error => {

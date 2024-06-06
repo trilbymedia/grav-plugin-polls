@@ -1,0 +1,36 @@
+{% set colors %}
+  :root {
+  {{ config.plugins.polls.colors }}
+  }
+{% endset %}
+{% do assets.addInlineCss(colors) %}
+
+<section class="poll poll__container poll__theme-{{ options.theme|default('default') }}" data-callback="{{ url(options.callback)|e('html_attr') }}">
+  <h2 class="poll__question">{{ poll.question|markdown(false) }}</h2>
+
+  {% for answer in poll.answers %}
+    {% set value = grav.polls.getAnswerValue(answer) %}
+{#    {{ vardump(value) }}#}
+{#    {{ vardump(answer) }}#}
+    {% if results[value] is defined %}
+      {% set percent = results[value] / total_votes * 100 %}
+      <div class="poll__bar">
+        <div class="poll__progress" style="width:{{ percent }}%"></div>
+        <div class="poll__text">{{ answer }}</div>
+        <div class="poll__percent">{{ percent|round(0) }}%</div>
+      </div>
+    {% endif %}
+  {% endfor %}
+
+  <div class="poll__buttons">
+    <button type="button" data-view="poll" class="poll__view btn button">{{ "PLUGIN_POLLS.VOTE_BTN"|t }}</button>
+  </div>
+
+  {% if poll.show_created %}
+    <p class="poll__created">{{ "PLUGIN_POLLS.CREATED_AT"|t(poll.created_at|date(config.system.pages.dateformat.short)) }}</p>
+  {% endif %}
+
+</section>
+
+{#{{ vardump(results) }}#}
+{#{{ vardump(total_votes) }}#}

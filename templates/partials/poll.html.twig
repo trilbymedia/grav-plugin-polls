@@ -1,13 +1,22 @@
-<section class="poll poll__container poll__theme-{{ options.theme|default('default') }}" data-callback="{{ url(options.callback)|e('html_attr') }}">
+{% set colors %}
+  :root {
+  {{ config.plugins.polls.colors }}
+  }
+{% endset %}
+{% do assets.addInlineCss(colors) %}
+
+<section class="poll poll__container poll__theme-{{ options.theme|default('default') }}" data-callback="{{ url(options.callback)|e('html_attr') }}" data-poll-id="{{ poll.id }}">
   <h2 class="poll__question">{{ poll.question|markdown(false) }}</h2>
-  {% if poll.show_hints %}
+  {% if poll.show_hints or options.show_hints %}
     {% if poll.max_answers == poll.min_answers %}
       <p class="poll__info">{{ "PLUGIN_POLLS.MAX_MIN_X_ANSWERS"|t(poll.max_answers, "PLUGIN_POLLS.ANSWER"|t|pluralize(poll.max_answers))|markdown(false) }}</p>
     {% else %}
       <p class="poll__info">{{ "PLUGIN_POLLS.MAX_X_MIN_X_ANSWERS"|t(poll.min_answers, poll.max_answers, "PLUGIN_POLLS.ANSWER"|t|pluralize(poll.max_answers))|markdown(false) }}</p>
     {% endif %}
   {% endif %}
+  <div data-messages></div>
   <form class="pollform">
+    <input type="hidden" name="id" value="{{ poll.id }}" />
     <div class="poll__options" data-max-answers="{{ poll.max_answers }}" data-min-answers="{{ poll.min_answers }}">
       {% for answer in poll.answers %}
       <div>
@@ -18,9 +27,10 @@
       </div>
       {% endfor %}
     </div>
+    {{ nonce_field(form.getNonceAction() ?? 'poll-form', form.getNonceName() ?? 'nonce')|raw }}
     <div class="poll__buttons">
       <button type="submit" class="poll__submit btn button btn-primary">{{ "PLUGIN_POLLS.SUBMIT_BTN"|t }}</button>
-      <button type="button" class="poll__results btn button">{{ "PLUGIN_POLLS.RESULTS_BTN"|t }}</button>
+      <button type="button" data-view="results" class="poll__view btn button">{{ "PLUGIN_POLLS.RESULTS_BTN"|t }}</button>
     </div>
     {% if poll.show_created %}
       <p class="poll__created">{{ "PLUGIN_POLLS.CREATED_AT"|t(poll.created_at|date(config.system.pages.dateformat.short)) }}</p>

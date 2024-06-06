@@ -95,7 +95,7 @@ class PollsPlugin extends Plugin
             }
 
             header('Content-Type: application/json');
-            echo json_encode(['code' => $result[0], 'message' => $result[1], 'content' => $result[2] ?? 'Error: missing content...']);
+            echo json_encode(['code' => $result[0], 'message' => $result[1], 'content' => $result[2] ?? '']);
             exit();
         }
     }
