@@ -162,10 +162,14 @@ class PollsManager
 
         $results = $this->getResults($id);
 
+        $this->mergeSavedOptions($id);
+
+
         return $twig->processTemplate($this->config->get('results_template'), [
             'id' => $id,
             'poll' => $poll,
             'results' => $results,
+            'options' => $this->config->toArray(),
             'total_votes' => array_sum($results),
         ]);
     }
@@ -250,7 +254,10 @@ class PollsManager
     public function showPoll()
     {
         $id = Grav::instance()['uri']->query('id');
-        return [200, 'Success', $this->renderPoll($id)];
+
+        $this->mergeSavedOptions($id);
+
+        return [200, 'Success', $this->renderPoll($id, $this->config->toArray())];
     }
 
 

@@ -5,7 +5,7 @@
 {% endset %}
 {% do assets.addInlineCss(colors) %}
 
-<section class="poll poll__container poll__theme-{{ options.theme|default('default') }}" data-callback="{{ url(options.callback)|e('html_attr') }}">
+<section class="poll poll__container poll__theme-{{ options.theme|default('default') }}" data-callback="{{ url(options.callback)|e('html_attr') }}" data-poll-id="{{ poll.id }}">
   <h2 class="poll__question">{{ poll.question|markdown(false) }}</h2>
 
   {% for answer in poll.answers %}
