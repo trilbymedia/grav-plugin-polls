@@ -21,7 +21,7 @@
       {% for answer in poll.answers %}
       <div>
         <label class="form-control">
-        <input type="checkbox" id="answers[{{ loop.index }}]" value="{{ polls.getAnswerValue(answer) }}" />
+        <input type="checkbox" id="answers[{{ loop.index }}]" value="{{ polls.getAnswerValue(answer)|default(answer) }}" />
         <span>{{ answer|markdown(false) }}</span>
         </label>
       </div>

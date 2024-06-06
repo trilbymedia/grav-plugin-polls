@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Function to initialize event listeners for the poll form
     const initializePollFormListeners = (pollContainer) => {
         console.log('Initializing poll form listeners for:', pollContainer);
         const form = pollContainer.querySelector('.pollform');
@@ -61,6 +60,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 answers: selectedOptions
             };
 
+            console.log('Submitting data:', data); // Debugging: Log the data being sent
+
             let callbackUrl = pollContainer.getAttribute('data-callback') + '.json';
 
             fetch(callbackUrl, {
@@ -96,7 +97,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     };
 
-    // Function to initialize event listeners for view buttons
     const initializeViewButtonsListeners = (pollContainer) => {
         console.log('Initializing view buttons listeners for:', pollContainer);
         const viewResultsButton = pollContainer.querySelector('.poll__view[data-view="results"]');
@@ -155,14 +155,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
 
-    // Function to initialize all necessary listeners
     const initializeListeners = (pollContainer) => {
         console.log('Initializing listeners for:', pollContainer);
         initializePollFormListeners(pollContainer);
         initializeViewButtonsListeners(pollContainer);
     };
 
-    // Initialize event listeners for all existing containers on page load
     document.querySelectorAll('.poll__container').forEach(pollContainer => {
         initializeListeners(pollContainer);
     });

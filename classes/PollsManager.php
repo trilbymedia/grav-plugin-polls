@@ -168,6 +168,7 @@ class PollsManager
         return $twig->processTemplate($this->config->get('results_template'), [
             'id' => $id,
             'poll' => $poll,
+            'polls' => $this,
             'results' => $results,
             'options' => $this->config->toArray(),
             'total_votes' => array_sum($results),
@@ -201,6 +202,7 @@ class PollsManager
             'id' => $id,
             'uri' => $callback,
             'poll' => $poll,
+            'polls' => $this,
             'options' => $options,
         ]);
     }
