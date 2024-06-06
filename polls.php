@@ -89,7 +89,8 @@ class PollsPlugin extends Plugin
 
             if ($uri->query('view') === 'results') {
                 $result = $polls->showResults();
-
+            } elseif ($uri->query('view') === 'poll') {
+                $result = $polls->showPoll();
             } else {
                 $result = $polls->processVote();
             }

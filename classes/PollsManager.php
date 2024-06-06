@@ -247,6 +247,13 @@ class PollsManager
         return [200, 'Success', $this->renderResults($id)];
     }
 
+    public function showPoll()
+    {
+        $id = Grav::instance()['uri']->query('id');
+        return [200, 'Success', $this->renderPoll($id)];
+    }
+
+
     protected function dataStoreVote(array $poll, array $data): bool
     {
         $id = $data['id'];
