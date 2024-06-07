@@ -16,6 +16,7 @@
   {% endif %}
   <div data-messages></div>
   <form class="pollform">
+    <fieldset {{ options.readonly ? 'disabled' }}>
     <input type="hidden" name="id" value="{{ poll.id }}" />
     <div class="poll__options" data-max-answers="{{ poll.max_answers }}" data-min-answers="{{ poll.min_answers }}">
       {% for answer in poll.answers %}
@@ -28,15 +29,14 @@
       {% endfor %}
     </div>
     {{ nonce_field(form.getNonceAction() ?? 'poll-form', form.getNonceName() ?? 'nonce')|raw }}
+    </fieldset>
     <div class="poll__buttons">
-      <button type="submit" class="poll__submit btn button btn-primary">{{ "PLUGIN_POLLS.SUBMIT_BTN"|t }}</button>
+      <button type="submit" class="poll__submit btn button btn-primary" {{ options.readoly ? 'disabled' }}>{{ "PLUGIN_POLLS.SUBMIT_BTN"|t }}</button>
       <button type="button" data-view="results" class="poll__view btn button">{{ "PLUGIN_POLLS.RESULTS_BTN"|t }}</button>
     </div>
     {% if poll.show_created %}
       <p class="poll__created">{{ "PLUGIN_POLLS.CREATED_AT"|t(poll.created_at|date(config.system.pages.dateformat.short)) }}</p>
     {% endif %}
+
   </form>
 </section>
-
-{#{{ vardump(poll) }}#}
-{#{{ vardump(options) }}#}
