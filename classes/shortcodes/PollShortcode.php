@@ -18,6 +18,7 @@ class PollShortcode extends Shortcode
                 'twig_template' => $sc->getParameter('twig_template'),
                 'theme' => $sc->getParameter('theme', $this->config->get('plugins.polls.theme')),
                 'show_hints' => $sc->getParameter('show_hints'),
+                'show_total' => $sc->getParameter('show_total'),
                 'disabled' => false,
             ], function ($value) {
                 return !is_null($value);

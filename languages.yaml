@@ -14,3 +14,4 @@ en:
     ERROR_POLL_NOT_FOUND: 'Error, the poll was not found.'
     ERROR_INVALID_SECURITY_TOKEN: 'Error, invalid security token provided.'
     VOTE_STORED: 'Thanks for your vote!'
+    TOTAL_VOTES: 'Total Votes: **%s**'

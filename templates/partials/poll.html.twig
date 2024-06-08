@@ -7,7 +7,7 @@
 
 <section class="poll poll__container poll__theme-{{ options.theme|default('default') }}" data-callback="{{ url(options.callback)|e('html_attr') }}" data-poll-id="{{ poll.id }}">
   <h2 class="poll__question">{{ poll.question|markdown(false) }}</h2>
-  {% if poll.show_hints or options.show_hints %}
+  {% if poll.show_hints %}
     {% if poll.max_answers == poll.min_answers %}
       <p class="poll__info">{{ "PLUGIN_POLLS.MAX_MIN_X_ANSWERS"|t(poll.max_answers, "PLUGIN_POLLS.ANSWER"|t|pluralize(poll.max_answers))|markdown(false) }}</p>
     {% else %}

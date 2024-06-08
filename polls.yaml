@@ -8,10 +8,6 @@ results_template: 'partials/results.html.twig'    # The twig template to use for
 unique_ip_check: false                            # Ensures that a particular IP can only vote once
 session_vote_check: true                          # Disable the interaction after the user has voted
 
-show_hints: true                                  # Show hints
-show_created: true                                # Show the date the poll was created
-show_total: true                                  # Show the total number of votes
-
 colors: |                                         # CSS Color variables for the modern theme
   --form-control-color: #367CE0;
   --form-modern-header-background: #367CE0;

@@ -72,6 +72,16 @@ form:
                     0: PLUGIN_ADMIN.DISABLED
                 validate:
                     type: bool
+            .show_total:
+                type: toggle
+                label: Show Total
+                highlight: 1
+                default: 1
+                options:
+                    1: PLUGIN_ADMIN.ENABLED
+                    0: PLUGIN_ADMIN.DISABLED
+                validate:
+                    type: bool
             .created_at:
               type: datetime
               label: Created
