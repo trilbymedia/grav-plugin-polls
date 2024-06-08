@@ -9,3 +9,8 @@ en:
     SUBMIT_BTN: Submit Vote
     RESULTS_BTN: View Results
     VOTE_BTN: Back to Vote
+    ERROR_HAS_VOTED: 'You vote was not stored, you have already voted in this poll.'
+    ERROR_INVALID_VOTE: 'Sorry you provided an invalid vote option, please try again.'
+    ERROR_POLL_NOT_FOUND: 'Error, the poll was not found.'
+    ERROR_INVALID_SECURITY_TOKEN: 'Error, invalid security token provided.'
+    VOTE_STORED: 'Thanks for your vote!'

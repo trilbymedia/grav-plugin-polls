@@ -9,6 +9,7 @@ use Grav\Common\File\CompiledYamlFile;
 use Grav\Common\Filesystem\Folder;
 use Grav\Common\Grav;
 use Grav\Common\Inflector;
+use Grav\Common\Session;
 use Grav\Common\Uri;
 use Grav\Common\Utils;
 use Grav\Plugin\Database\PDO;
@@ -25,6 +26,8 @@ class PollsManager
 
     protected $data;
     protected $config;
+
+    protected $disabled = false;
 
     public function __construct()
     {
@@ -192,9 +195,7 @@ class PollsManager
         }
 
         $options = $this->config->toArray();
-
-        $options['disabled'] = $options['disabled'] ?? false;
-        $options['readonly'] = $options['readonly'] || ($options['disable_after_vote'] && $options['disabled']);
+        $options['readonly'] = $options['readonly'] ?? false;
 
         $callback = Uri::addNonce(Utils::url($options['callback']) . '.json', 'poll');
 
@@ -224,27 +225,37 @@ class PollsManager
         $data = json_decode($rawData, true);
         $id = $data['id'];
 
+        $lang = Grav::instance()['language'];
+
         if (!Utils::verifyNonce($data['nonce'], 'poll-form')) {
-            return [400, 'Error: Invalid security nonce'];
+            return [400, $lang->translate('PLUGIN_POLLS.ERROR_INVALID_SECURITY_TOKEN')];
         }
 
         $poll = $this->getPoll($id);
 
         if (!$poll) {
-            return [400, 'Error: Sorry the poll was not found.'];
+            return [400, $lang->translate('PLUGIN_POLLS.ERROR_POLL_NOT_FOUND')];
         }
 
         if (!$this->isValidVote($poll, $data)) {
-            return [400, 'Error: Sorry this is invalid vote option, please try again.'];
+            return [400, $lang->translate('PLUGIN_POLLS.ERROR_INVALID_VOTE')];
         }
 
         if ($this->hasAlreadyVoted($id)) {
-            return [400, 'Sorry, You have already voted in this poll.'];
+            return [400, $lang->translate('PLUGIN_POLLS.ERROR_HAS_VOTED')];
         }
 
         $this->dataStoreVote($poll, $data);
 
-        return [200, 'Success, your vote as been processed', $this->renderResults($id)];
+        // Store vote_check in session if required
+        if ($this->config->get('session_vote_check')) {
+            $session = Grav::instance()['session'];
+            $polls_voted = $session->polls_voted ?? [];
+            $polls_voted[] = $id;
+            $session->polls_voted = $polls_voted;
+        }
+
+        return [200, $lang->translate('PLUGIN_POLLS.VOTE_STORED'), $this->renderResults($id)];
     }
 
     public function showResults()
@@ -313,6 +324,15 @@ class PollsManager
 
     public function hasAlreadyVoted($id)
     {
+        /** @var Session $session */
+        if ($this->config->get('session_vote_check')) {
+            $session = Grav::instance()['session'];
+            $session->polls_voted = $session->polls_voted ?? [];
+            if (in_array($id, $session->polls_voted)) {
+                return true;
+            }
+        }
+
         if ($this->config->get('unique_ip_check')) {
             $user_ip = Grav::instance()['uri']->ip();
 

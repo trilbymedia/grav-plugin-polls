@@ -6,7 +6,7 @@ callback: '/polls'                                # A path that the plugin will 
 poll_template: 'partials/poll.html.twig'          # The twig template to use for rendering the plugin
 results_template: 'partials/results.html.twig'    # The twig template to use for rendering the results
 unique_ip_check: false                            # Ensures that a particular IP can only vote once
-disable_after_vote: true                          # Disable the interaction after the user has voted
+session_vote_check: true                          # Disable the interaction after the user has voted
 
 show_hints: true                                  # Show hints
 show_created: true                                # Show the date the poll was created
