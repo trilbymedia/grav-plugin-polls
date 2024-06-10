@@ -17,10 +17,15 @@
         <div class="poll__text">{{ answer }}</div>
         <div class="poll__percent">{{ percent|round(0) }}%</div>
       </div>
+    {% else %}
+      <div class="poll__bar">
+        <div class="poll__text">{{ answer }}</div>
+        <div class="poll__percent">0%</div>
+      </div>
     {% endif %}
   {% endfor %}
 
-  {% if poll.show_total %}
+  {% if poll.advanced.show_total %}
     <p class="poll__total">{{ "PLUGIN_POLLS.TOTAL_VOTES"|t(total_votes)|markdown(false) }}</p>
   {% endif %}
 
@@ -28,8 +33,8 @@
     <button type="button" data-view="poll" class="poll__view btn button">{{ "PLUGIN_POLLS.VOTE_BTN"|t }}</button>
   </div>
 
-  {% if poll.show_created %}
-    <p class="poll__created">{{ "PLUGIN_POLLS.CREATED_AT"|t(poll.created_at|date(config.system.pages.dateformat.short)) }}</p>
+  {% if poll.advanced.show_created %}
+    <p class="poll__created">{{ "PLUGIN_POLLS.CREATED_AT"|t(poll.advanced.created_at|date(config.system.pages.dateformat.short)) }}</p>
   {% endif %}
 
 </section>

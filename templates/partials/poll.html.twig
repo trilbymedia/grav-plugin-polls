@@ -7,18 +7,18 @@
 
 <section class="poll poll__container poll__theme-{{ options.theme|default('default') }}" data-callback="{{ url(options.callback)|e('html_attr') }}" data-poll-id="{{ poll.id }}">
   <h2 class="poll__question">{{ poll.question|markdown(false) }}</h2>
-  {% if poll.show_hints %}
-    {% if poll.max_answers == poll.min_answers %}
-      <p class="poll__info">{{ "PLUGIN_POLLS.MAX_MIN_X_ANSWERS"|t(poll.max_answers, "PLUGIN_POLLS.ANSWER"|t|pluralize(poll.max_answers))|markdown(false) }}</p>
+  {% if poll.advanced.show_hints %}
+    {% if poll.advanced.max_answers == poll.advanced.min_answers %}
+      <p class="poll__info">{{ "PLUGIN_POLLS.MAX_MIN_X_ANSWERS"|t(poll.advanced.max_answers, "PLUGIN_POLLS.ANSWER"|t|pluralize(poll.max_answers))|markdown(false) }}</p>
     {% else %}
-      <p class="poll__info">{{ "PLUGIN_POLLS.MAX_X_MIN_X_ANSWERS"|t(poll.min_answers, poll.max_answers, "PLUGIN_POLLS.ANSWER"|t|pluralize(poll.max_answers))|markdown(false) }}</p>
+      <p class="poll__info">{{ "PLUGIN_POLLS.MAX_X_MIN_X_ANSWERS"|t(poll.advanced.min_answers, poll.advanced.max_answers, "PLUGIN_POLLS.ANSWER"|t|pluralize(poll.advanced.max_answers))|markdown(false) }}</p>
     {% endif %}
   {% endif %}
   <div data-messages></div>
   <form class="pollform">
     <fieldset {{ options.readonly ? 'disabled' }}>
     <input type="hidden" name="id" value="{{ poll.id }}" />
-    <div class="poll__options" data-max-answers="{{ poll.max_answers }}" data-min-answers="{{ poll.min_answers }}">
+    <div class="poll__options" data-max-answers="{{ poll.advanced.max_answers }}" data-min-answers="{{ poll.advanced.min_answers }}">
       {% for answer in poll.answers %}
       <div>
         <label class="form-control">
@@ -31,12 +31,14 @@
     {{ nonce_field(form.getNonceAction() ?? 'poll-form', form.getNonceName() ?? 'nonce')|raw }}
     </fieldset>
     <div class="poll__buttons">
-      <button type="submit" class="poll__submit btn button btn-primary" {{ options.readoly ? 'disabled' }}>{{ "PLUGIN_POLLS.SUBMIT_BTN"|t }}</button>
+      <button type="submit" class="poll__submit btn button btn-primary">{{ "PLUGIN_POLLS.SUBMIT_BTN"|t }}</button>
       <button type="button" data-view="results" class="poll__view btn button">{{ "PLUGIN_POLLS.RESULTS_BTN"|t }}</button>
     </div>
-    {% if poll.show_created %}
-      <p class="poll__created">{{ "PLUGIN_POLLS.CREATED_AT"|t(poll.created_at|date(config.system.pages.dateformat.short)) }}</p>
+    {% if poll.advanced.show_created %}
+      <p class="poll__created">{{ "PLUGIN_POLLS.CREATED_AT"|t(poll.advanced.created_at|date(config.system.pages.dateformat.short)) }}</p>
     {% endif %}
 
   </form>
 </section>
+
+

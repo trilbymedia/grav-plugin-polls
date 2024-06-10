@@ -165,9 +165,6 @@ class PollsManager
 
         $results = $this->getResults($id);
 
-        $this->mergeSavedOptions($id);
-
-
         return $twig->processTemplate($this->config->get('results_template'), [
             'id' => $id,
             'poll' => $poll,
@@ -225,6 +222,8 @@ class PollsManager
         $data = json_decode($rawData, true);
         $id = $data['id'];
 
+        $this->mergeSavedOptions($id);
+
         $lang = Grav::instance()['language'];
 
         if (!Utils::verifyNonce($data['nonce'], 'poll-form')) {
@@ -261,6 +260,7 @@ class PollsManager
     public function showResults()
     {
         $id = Grav::instance()['uri']->query('id');
+        $this->mergeSavedOptions($id);
         return [200, 'Success', $this->renderResults($id)];
     }
 
@@ -364,7 +364,7 @@ class PollsManager
             }
         }
 
-        if (count($data_answers) < $poll['min_answers'] || count($data_answers) > $poll['max_answers']) {
+        if (count($data_answers) < $poll['advanced']['min_answers'] || count($data_answers) > $poll['advanced']['max_answers']) {
             return false;
         }
 

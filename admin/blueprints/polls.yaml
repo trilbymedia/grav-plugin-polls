@@ -36,58 +36,117 @@ form:
                 0: PLUGIN_ADMIN.DISABLED
               validate:
                   type: bool
-            .max_answers:
-              type: number
-              label: Max Answers
-              size: x-small
-              default: 1
-              validate:
-                type: int
-                min: 1
-            .min_answers:
-              type: number
-              label: Min Answers
-              size: x-small
-              default: 1
-              validate:
-                type: int
-                min: 1
-            .show_hints:
-              type: toggle
-              label: Show Hints
-              highlight: 1
-              default: 1
-              options:
-                1: PLUGIN_ADMIN.ENABLED
-                0: PLUGIN_ADMIN.DISABLED
-              validate:
-                type: bool
-            .show_created:
-                type: toggle
-                label: Show Created
-                highlight: 1
-                default: 1
-                options:
+            .advanced:
+              type: fieldset
+              title: Advanced
+              collapsible: true
+              collapsed: true
+
+              fields:
+                .max_answers:
+                  type: number
+                  label: Max Answers
+                  size: x-small
+                  default: 1
+                  validate:
+                    type: int
+                    min: 1
+                .min_answers:
+                  type: number
+                  label: Min Answers
+                  size: x-small
+                  default: 1
+                  validate:
+                    type: int
+                    min: 1
+                .show_hints:
+                  type: toggle
+                  label: Show Hints
+                  highlight: 1
+                  default: 1
+                  options:
                     1: PLUGIN_ADMIN.ENABLED
                     0: PLUGIN_ADMIN.DISABLED
-                validate:
+                  validate:
                     type: bool
-            .show_total:
-                type: toggle
-                label: Show Total
-                highlight: 1
-                default: 1
-                options:
-                    1: PLUGIN_ADMIN.ENABLED
-                    0: PLUGIN_ADMIN.DISABLED
-                validate:
-                    type: bool
-            .created_at:
-              type: datetime
-              label: Created
-              size: medium
-              readonly: true
-              default: 'now'
-
-
+                .show_created:
+                    type: toggle
+                    label: Show Created
+                    highlight: 1
+                    default: 1
+                    options:
+                        1: PLUGIN_ADMIN.ENABLED
+                        0: PLUGIN_ADMIN.DISABLED
+                    validate:
+                        type: bool
+                .show_total:
+                    type: toggle
+                    label: Show Total
+                    highlight: 1
+                    default: 1
+                    options:
+                        1: PLUGIN_ADMIN.ENABLED
+                        0: PLUGIN_ADMIN.DISABLED
+                    validate:
+                        type: bool
+                .created_at:
+                  type: datetime
+                  label: Created
+                  size: medium
+                  readonly: true
+                  default: 'now'
+#            .max_answers:
+#              type: number
+#              label: Max Answers
+#              size: x-small
+#              default: 1
+#              validate:
+#                type: int
+#                min: 1
+#            .min_answers:
+#              type: number
+#              label: Min Answers
+#              size: x-small
+#              default: 1
+#              validate:
+#                type: int
+#                min: 1
+#            .show_hints:
+#              type: toggle
+#              label: Show Hints
+#              highlight: 1
+#              default: 1
+#              options:
+#                1: PLUGIN_ADMIN.ENABLED
+#                0: PLUGIN_ADMIN.DISABLED
+#              validate:
+#                type: bool
+#            .show_created:
+#                type: toggle
+#                label: Show Created
+#                highlight: 1
+#                default: 1
+#                options:
+#                    1: PLUGIN_ADMIN.ENABLED
+#                    0: PLUGIN_ADMIN.DISABLED
+#                validate:
+#                    type: bool
+#            .show_total:
+#                type: toggle
+#                label: Show Total
+#                highlight: 1
+#                default: 1
+#                options:
+#                    1: PLUGIN_ADMIN.ENABLED
+#                    0: PLUGIN_ADMIN.DISABLED
+#                validate:
+#                    type: bool
+#            .created_at:
+#              type: datetime
+#              label: Created
+#              size: medium
+#              readonly: true
+#              default: 'now'
+#
+#
 

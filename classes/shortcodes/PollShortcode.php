@@ -12,17 +12,17 @@ class PollShortcode extends Shortcode
             $polls = $this->grav['polls'];
             $id = $polls->getId($sc->getParameter('id', null));
             $options = array_filter([
-                'disable_after_vote' => $sc->getParameter('disable_after_vote'),
+                'theme' => $sc->getParameter('theme'),
+                'callback' => $sc->getParameter('callback'),
                 'unique_ip_check' => $sc->getParameter('unique_ip_check'),
+                'session_vote_check' => $sc->getParameter('session_vote_check'),
+                'poll_template' => $sc->getParameter('poll_template'),
+                'results_template' => $sc->getParameter('results_template'),
                 'readonly' => $sc->getParameter('readonly'),
-                'twig_template' => $sc->getParameter('twig_template'),
-                'theme' => $sc->getParameter('theme', $this->config->get('plugins.polls.theme')),
-                'show_hints' => $sc->getParameter('show_hints'),
-                'show_total' => $sc->getParameter('show_total'),
-                'disabled' => false,
             ], function ($value) {
                 return !is_null($value);
             });
+
             $polls->saveOptions($id, $options);
             return $polls->renderPoll($id, $options);
         });
