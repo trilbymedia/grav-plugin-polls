@@ -2,6 +2,7 @@ name: Polls
 slug: polls
 type: plugin
 version: 0.1.0
+premium: true
 description: Simple polls for Grav CMS
 icon: plug
 author:
@@ -47,6 +48,8 @@ form:
         type: select
         label: Theme
         default: default
+        help: The layout to use for rendering the poll
+        size: medium
         options:
             default: Default
             modern: Modern
@@ -55,33 +58,41 @@ form:
         type: text
         size: medium
         label: Callback URL
-        help: Callback URL to post poll results to
+        help: Advanced - Callback URL to post poll results to
         default: /polls
 
-    twig_template:
+    poll_template:
         type: text
         size: medium
-        label: Twig template
+        label: Poll template
         help: Twig template to use for rendering the poll
         default: partials/poll.html.twig
+
+    results_template:
+        type: text
+        size: medium
+        label: Results template
+        help: Twig template to use for rendering the results
+        default: partials/results.html.twig
 
     unique_ip_check:
       type: toggle
       label: Unique IP check
-      highlight: 1
       help: Check if the user has already voted based on their IP address
+      highlight: 0
+      default: 1
       options:
           1: PLUGIN_ADMIN.YES
           0: PLUGIN_ADMIN.NO
       validate:
           type: bool
 
-
-    disable_after_vote:
+    session_vote_check:
       type: toggle
-      label: Disable after vote
+      label: Session vote check
+      help: Disable the poll after the user has already voted
       highlight: 1
-      help: Disable the interaction after the user has voted
+      default: 1
       options:
         1: PLUGIN_ADMIN.YES
         0: PLUGIN_ADMIN.NO
@@ -93,7 +104,7 @@ form:
       label: Read only
       help: Make the poll read only
       highlight: 0
-      default: false
+      default: 0
       options:
           1: PLUGIN_ADMIN.YES
           0: PLUGIN_ADMIN.NO
