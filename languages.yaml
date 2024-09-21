@@ -15,3 +15,36 @@ en:
     ERROR_INVALID_SECURITY_TOKEN: 'Error: Invalid security token provided.'
     VOTE_STORED: 'Thanks for your vote!'
     TOTAL_VOTES: 'Total Votes: **%s**'
+    CONFIG: Plugin Config
+    BUILT_IN_CSS: Use built-in CSS
+    THEME: Theme
+    THEME_HELP: 'The layout to use for rendering the plugin'
+    DEFAULT: Default
+    MODERN: Modern
+    CALLBACK: Callback URL
+    CALLBACK_HELP: 'A path that the plugin will look for when processing Ajax calls'
+    TEMPLATE: 'Poll Template'
+    TEMPLATE_HELP: 'Twig template to use for rendering the poll'
+    TEMPLATE_RESULTS: 'Results Template'
+    TEMPLATE_RESULTS_HELP: 'Twig template to use for rendering the results'
+    UNIQUE_IP_CHECK: 'Unique IP Check'
+    UNIQUE_IP_CHECK_HELP: 'Check if the user has already voted based on their IP address'
+    SESSION_VOTE_CHECK: 'Session Vote Check'
+    SESSION_VOTE_CHECK_HELP: 'Disable the poll after the user has already voted'
+    READ_ONLY: 'Read Only'
+    READ_ONLY_HELP: 'Make the poll read only'
+    COLORS: Colors
+    COLORS_HELP: 'CSS variables that define the colors for the poll (using default CSS)'
+    POLLS: Polls
+    QUESTION: Question
+    ANSWERS: Answers
+    ID: ID
+    ADVANCED: Advanced Poll Options
+    MAX_ANSWERS: 'Max Answers'
+    MIN_ANSWERS: 'Min Answers'
+    SHOW_HINTS: 'Show Hints'
+    SHOW_CREATED: 'Show Created'
+    SHOW_TOTAL: 'Show Total'
+    CREATED: Created
+    BASIC_CONFIGURATION: Basic Configuration
+    ADVANCED_CONFIGURATION: Advanced Configuration

@@ -10,9 +10,9 @@ session_vote_check: true                          # Disable the interaction afte
 
 colors: |                                         # CSS Color variables for the modern theme
   --form-control-color: #367CE0;
-  --form-modern-header-background: #367CE0;
   --form-control-disabled: #959495;
   --form-control-background: #FFFFFF;
   --form-modern-header-color: #FFFFFF;
+  --form-modern-header-background: #367CE0;
   --form-modern-background: #FFFFFF;
   --form-modern-control-background: #F3F3F3;

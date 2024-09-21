@@ -11,9 +11,10 @@
 {% block titlebar %}
     <div class="button-bar">
         <a class="button" href="{{ base_url }}"><i class="fa fa-reply"></i> {{ "PLUGIN_ADMIN.BACK"|tu }}</a>
+        <a class="button" href="{{ base_url }}/plugins/polls"><i class="fa fa-fw fa-gear"></i> {{ "PLUGIN_POLLS.CONFIG"|tu }}</a>
         <button class="button" type="submit" name="task" value="savePolls" form="blueprints"><i class="fa fa-check"></i> {{ "PLUGIN_ADMIN.SAVE"|tu }}</button>
     </div>
-    <h1><i class="fa fa-fw fa-key"></i> {{ "PLUGIN_POLLS.TITLE"|tu }}</h1>
+    <h1><i class="fa fa-fw fa-check-square"></i> {{ "PLUGIN_POLLS.TITLE"|tu }}</h1>
 {% endblock %}
 
 {% block content %}
