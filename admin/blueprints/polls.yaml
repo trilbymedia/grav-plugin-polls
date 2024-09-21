@@ -26,7 +26,7 @@ form:
               type: text
               label: PLUGIN_POLLS.ID
               markdown: true
-              description: Embed code in page would be `[poll id="favorite-color" /]`
+              description: Embed code in page would be `[poll id="{{ field.value }}" /]`
               validate:
                 required: true
             .answers:

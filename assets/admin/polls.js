@@ -3,24 +3,40 @@ function stringToSlug(str) {
     return str.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
 }
 
-// Function to add event listeners to a single item
 function addListenersToItems(item) {
     const questionInput = item.querySelector('input[type="text"][name*="[question]"]');
     const idInput = item.querySelector('input[type="text"][name*="[id]"]');
-    if (!questionInput || !idInput) return;
+    const formDescription = item.querySelector('.form-extra-wrapper .form-description code');
+
+    if (!questionInput || !idInput || !formDescription) return;
+
     let isIdEdited = idInput.value.trim() !== '';
 
+    // Function to update the embed code
+    function updateEmbedCode(newId) {
+        formDescription.textContent = `[poll id="${newId}" /]`;
+    }
+
+    // Update the embed code on page load
+    updateEmbedCode(idInput.value || stringToSlug(questionInput.value));
+
+    // Update idInput when questionInput changes
     questionInput.addEventListener('input', function() {
         if (!isIdEdited) {
-            idInput.value = stringToSlug(questionInput.value);
+            const slugifiedId = stringToSlug(questionInput.value);
+            idInput.value = slugifiedId;
+            updateEmbedCode(slugifiedId); // Update the embed code
         }
     });
 
+    // Track if idInput is manually edited
     idInput.addEventListener('input', function() {
-        if (idInput.value.trim() === '') {
+        const newIdValue = idInput.value.trim();
+        if (newIdValue === '') {
             isIdEdited = false;
         } else {
             isIdEdited = true;
+            updateEmbedCode(newIdValue); // Update the embed code
         }
     });
 
@@ -46,7 +62,6 @@ document.addEventListener('DOMContentLoaded', function () {
     // Observer to watch for new li elements
     const observer = new MutationObserver(mutations => {
         mutations.forEach(mutation => {
-            console.log('mutation');
             mutation.addedNodes.forEach(node => {
                 if (node.nodeType === Node.ELEMENT_NODE && node.matches('li[data-collection-item]')) {
                     addListenersToItems(node);
