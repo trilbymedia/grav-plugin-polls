@@ -16,8 +16,9 @@ docs: https://github.com/trilbymedia/grav-plugin-polls/blob/develop/README.md
 license: MIT
 
 dependencies:
-  - { name: grav, version: '>=1.6.0' }
-  - { name: database, version: '>=0.1.0' }
+  - { name: grav, version: '>=1.7.0' }
+  - { name: database, version: '>=01.0.0' }
+  - { name: shortcode-core, version: '>=5.0.0' }
 
 form:
   validation: loose
