@@ -3,6 +3,7 @@ namespace Grav\Plugin;
 
 use Composer\Autoload\ClassLoader;
 use Grav\Common\Plugin;
+use Grav\Events\FlexRegisterEvent;
 use Grav\Plugin\Polls\PollsController;
 use Grav\Plugin\Polls\PollsManager;
 use RocketTheme\Toolbox\Event\Event;
@@ -14,6 +15,10 @@ use RocketTheme\Toolbox\Event\Event;
 class PollsPlugin extends Plugin
 {
     protected $admin_route = 'polls';
+
+    public $features = [
+        'blueprints' => 0,
+    ];
 
     /**
      * @return array
@@ -30,7 +35,8 @@ class PollsPlugin extends Plugin
         return [
             'onPluginsInitialized' => [
                 ['onPluginsInitialized', 0],
-            ]
+            ],
+            FlexRegisterEvent::class       => [['onRegisterFlex', 0]],
         ];
     }
 
@@ -42,6 +48,17 @@ class PollsPlugin extends Plugin
     public function autoload(): ClassLoader
     {
         return require __DIR__ . '/vendor/autoload.php';
+    }
+
+    public function onRegisterFlex($event): void
+    {
+        $flex = $event->flex;
+
+        $flex->addDirectoryType(
+            'polls',
+            'blueprints://flex-objects/polls.yaml'
+        );
+
     }
 
     /**
@@ -70,6 +87,7 @@ class PollsPlugin extends Plugin
 
         // Enable the main events we are interested in
         $this->enable([
+            'onTwigInitialized'   => ['onTwigInitialized', 0],
             'onTwigSiteVariables' => ['onTwigSiteVariables', 0],
             'onShortcodeHandlers' => ['onShortcodeHandlers', 0],
             'onTwigTemplatePaths' => ['onTwigTemplatePaths', 0],
@@ -108,14 +126,14 @@ class PollsPlugin extends Plugin
 
     public function onTwigAdminTemplatePaths()
     {
-        $this->grav['twig']->twig_paths[] = __DIR__ . '/admin/templates';
+//        $this->grav['twig']->twig_paths[] = __DIR__ . '/admin/templates';
     }
 
     public function onAdminTaskExecute(Event $event)
     {
-        $controller = new PollsController($event['controller'], $event['method']);
-
-        return $controller->execute();
+//        $controller = new PollsController($event['controller'], $event['method']);
+//
+//        return $controller->execute();
     }
 
     /**
@@ -124,7 +142,7 @@ class PollsPlugin extends Plugin
     public function onAdminMenu()
     {
 
-        $this->grav['twig']->plugins_hooked_nav['PLUGIN_POLLS.TITLE'] = ['route' => $this->admin_route, 'icon' => 'fa-check-square'];
+//        $this->grav['twig']->plugins_hooked_nav['PLUGIN_POLLS.TITLE'] = ['route' => $this->admin_route, 'icon' => 'fa-check-square'];
     }
 
     /**
@@ -133,7 +151,13 @@ class PollsPlugin extends Plugin
      */
     public function onDataTypeExcludeFromDataManagerPluginHook()
     {
-        $this->grav['admin']->dataTypesExcludedFromDataManagerPlugin[] = 'polls';
+//        $this->grav['admin']->dataTypesExcludedFromDataManagerPlugin[] = 'polls';
+    }
+
+    public function onTwigInitialized()
+    {
+
+
     }
 
     public function onTwigSiteVariables()

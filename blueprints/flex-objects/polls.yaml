@@ -1,0 +1,198 @@
+title: 'Polls'
+description: 'Polls'
+type: flex-objects
+
+# Flex Configuration
+config:
+    # Administration Configuration
+    admin:
+        # Admin router (optional)
+        router:
+            path: '/polls'
+
+        # Admin menu (optional)
+        menu:
+            list:
+                route: '/polls'
+                title: 'Polls'
+                icon: fa-check-square
+                # Authorization to collection admin
+                authorize: ['admin.polls.list', 'admin.super']
+                # Priority -10 .. 10 (highest goes up)
+                priority: 2
+
+        # Admin template type / folder
+        template: default
+
+        # Permissions
+        permissions:
+            # Primary permissions
+            admin.advertisements:
+                type: crudpl
+                label: 'Polls'
+
+        # List view
+        list:
+            title: question
+            fields:
+                enabled:
+                    field:
+                        type: toggle
+                        label: Enabled
+                    width: 8
+                question:
+                    link: edit
+                id:
+
+        # Edit View
+        edit:
+            title:
+                template: '{{ object.question }}'
+
+        # Preview View
+        preview:
+            enabled: false
+            route:
+            #template: '/plugins/flex-objects/directory:contacts'
+
+        # Data Export
+        export:
+            enabled: true
+            method: 'jsonSerialize'
+            formatter:
+                class: 'Grav\Framework\File\Formatter\YamlFormatter'
+            filename: 'polls'
+
+    # Site Configuration
+    site:
+        templates:
+            collection:
+                # Lookup for the template layout files for collections of objects
+                paths:
+                    - 'flex/{TYPE}/collection/{LAYOUT}{EXT}'
+            object:
+                # Lookup for the template layout files for objects
+                paths:
+                    - 'flex/{TYPE}/object/{LAYOUT}{EXT}'
+            defaults:
+                # Default template {TYPE}; overridden by filename of this blueprint if template folder exists
+                type: 'polls'
+                # Default template {LAYOUT}; can be overridden in render calls (usually Twig in templates)
+                layout: default
+
+    # Data Configuration
+    data:
+        # Object class to be used, allowing custom methods for the object
+        object: 'Grav\Plugin\Polls\Flex\PollObject'
+        # Collection class to be used, allowing custom methods for the collections
+        collection: 'Grav\Plugin\Polls\Flex\PollsCollection'
+        # Index class to be used, works as a quick database-like lookup index
+        index: 'Grav\Common\Flex\Types\Generic\GenericIndex'
+        storage:
+            # Storage class, use single file storage (does not support images and assets)
+            class: 'Grav\Framework\Flex\Storage\SimpleStorage'
+            options:
+                formatter:
+                    # File formatter class, in this case the file is stored in markdown
+                    class: 'Grav\Framework\File\Formatter\YamlFormatter'
+                # JSON file where all the objects will be stored
+                folder: user-data://polls/polls.yaml
+        search:
+            # Search options
+            options:
+                contains: 1
+            # Fields to be searched
+            fields:
+                - question
+                - answers
+
+form:
+    validation: loose
+    fields:
+      question:
+        type: text
+        label: PLUGIN_POLLS.QUESTION
+        validate:
+          required: true
+      id:
+        type: text
+        label: PLUGIN_POLLS.ID
+        markdown: true
+        description: Embed code in page would be `[poll id="{{ field.value }}" /]`
+        validate:
+          required: true
+      answers:
+        type: array
+        value_only: true
+        label: PLUGIN_POLLS.ANSWERS
+
+      published:
+        type: toggle
+        label: PLUGIN_ADMIN.PUBLISHED
+        highlight: 1
+        default: 1
+        options:
+          1: PLUGIN_ADMIN.ENABLED
+          0: PLUGIN_ADMIN.DISABLED
+        validate:
+          type: bool
+
+      _advanced:
+        type: fieldset
+        title: PLUGIN_POLLS.ADVANCED
+        collapsible: true
+        collapsed: true
+
+        fields:
+          advanced.max_answers:
+            type: number
+            label: PLUGIN_POLLS.MAX_ANSWERS
+            size: x-small
+            default: 1
+            validate:
+              type: int
+              min: 1
+          advanced.min_answers:
+            type: number
+            label: PLUGIN_POLLS.MIN_ANSWERS
+            size: x-small
+            default: 1
+            validate:
+              type: int
+              min: 1
+          advanced.show_hints:
+            type: toggle
+            label: PLUGIN_POLLS.SHOW_HINTS
+            highlight: 1
+            default: 1
+            options:
+              1: PLUGIN_ADMIN.ENABLED
+              0: PLUGIN_ADMIN.DISABLED
+            validate:
+              type: bool
+          advanced.show_created:
+            type: toggle
+            label: PLUGIN_POLLS.SHOW_CREATED
+            highlight: 1
+            default: 1
+            options:
+              1: PLUGIN_ADMIN.ENABLED
+              0: PLUGIN_ADMIN.DISABLED
+            validate:
+              type: bool
+          advanced.show_total:
+            type: toggle
+            label: PLUGIN_POLLS.SHOW_TOTAL
+            highlight: 1
+            default: 1
+            options:
+              1: PLUGIN_ADMIN.ENABLED
+              0: PLUGIN_ADMIN.DISABLED
+            validate:
+              type: bool
+          advanced.created_at:
+            type: datetime
+            label: PLUGIN_POLLS.CREATED
+            size: medium
+            readonly: true
+            default: 'now'

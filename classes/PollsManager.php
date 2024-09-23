@@ -13,13 +13,14 @@ use Grav\Common\Session;
 use Grav\Common\Uri;
 use Grav\Common\Utils;
 use Grav\Plugin\Database\PDO;
+use Grav\Plugin\Polls\Flex\PollObject;
 
 class PollsManager
 {
     /** @var PDO */
     protected $db;
     protected $blueprint;
-    protected $data_file;
+    protected $polls;
     protected $data_path;
     protected $data_db;
     protected $table_votes = 'poll_votes';
@@ -36,18 +37,20 @@ class PollsManager
 
     public function init()
     {
-        $blueprint = new Blueprint('plugin://polls/admin/blueprints/polls.yaml');
-        $blueprint->load();
-        $this->blueprint = $blueprint;
+//        $blueprint = new Blueprint('plugin://polls/admin/blueprints/polls.yaml');
+//        $blueprint->load();
+//        $this->blueprint = $blueprint;
+
+        $flex = Grav::instance()['flex_objects'];
+        $polls_dir = $flex->getDirectory('polls');
+        $this->polls = $polls_dir->getCollection(); //->withPublished();
 
         $path = Grav::instance()['locator']->findResource('user-data://polls', true, true);
-        $this->data_path = $path  . '/polls.yaml';
-        $this->data_file = CompiledYamlFile::instance($this->data_path);
         $this->data_db = $path . '/polls.db';
 
-        $data = new Data($this->data_file->content(), $this->blueprint);
-        $data->file($this->data_file);
-        $this->data = $data;
+//        $data = new Data($this->data_file->content(), $this->blueprint);
+//        $data->file($this->data_file);
+//        $this->data = $data;
 
         $config = Grav::instance()['config']->get('plugins.polls');
         $this->config = new Config($config);
@@ -58,7 +61,7 @@ class PollsManager
     public function getId(string $id = null): ?string
     {
         if (null === $id) {
-            $polls = $this->getPolls(['enabled' => true]);
+            $polls = $this->getPolls(['published' => true]);
             $id = $polls[0]['id'] ?? null;
         }
         return $id;
@@ -68,7 +71,7 @@ class PollsManager
     {
         if (!empty($filters)) {
             $polls = [];
-            foreach ($this->data_file->content()['polls'] as $poll) {
+            foreach ($this->polls as $poll) {
                 $match = true;
                 foreach ($filters as $key => $value) {
                     if ($poll[$key] !== $value) {
@@ -82,11 +85,11 @@ class PollsManager
             }
             return $polls;
         } else {
-            return $this->data_file->content()['polls'] ?? [];
+            return $this->polls ?? [];
         }
     }
 
-    public function getPoll(string $id, array $filters = []): ?array
+    public function getPoll(string $id, array $filters = []): ?PollObject
     {
         $polls = $this->getPolls($filters);
         foreach ($polls as $poll) {
@@ -106,29 +109,24 @@ class PollsManager
         return $polls;
     }
 
-    public function addPoll(string $key, array $data)
-    {
-        $polls = $this->getPolls();
-        $polls[$key] = $data;
-        $this->setData(['polls' => $polls]);
-    }
+//    public function addPoll(string $key, array $data)
+//    {
+//        $polls = $this->getPolls();
+//        $polls[$key] = $data;
+//        $this->setData(['polls' => $polls]);
+//    }
 
 
-    public function getBlueprints()
-    {
-        return $this->blueprint;
-    }
+//    public function getBlueprints()
+//    {
+//        return $this->blueprint;
+//    }
+//
+//    public function getData()
+//    {
+//        return $this->data;
+//    }
 
-    public function getData()
-    {
-        return $this->data;
-    }
-
-    public function setData(array $data)
-    {
-        $this->data_file->content($data);
-        $this->data_file->save();
-    }
 
     public function saveOptions(string $id, array $options)
     {
@@ -274,7 +272,7 @@ class PollsManager
     }
 
 
-    protected function dataStoreVote(array $poll, array $data): bool
+    protected function dataStoreVote(PollObject $poll, array $data): bool
     {
         $id = $data['id'];
         $answers = $data['answers'] ?? [];
@@ -353,7 +351,7 @@ class PollsManager
         return false;
     }
 
-    protected function isValidVote(array $poll, array $data): bool
+    protected function isValidVote(PollObject $poll, array $data): bool
     {
         $valid_answers = $this->getValidAnswerValues($poll);
         $data_answers = $data['answers'] ?? [];
@@ -394,7 +392,7 @@ class PollsManager
         return Inflector::hyphenize($normalized);
     }
 
-    public function getValidAnswerValues(array $poll): array
+    public function getValidAnswerValues(PollObject $poll): array
     {
         return array_map(function($answer) {
             return $this->getAnswerValue($answer);
