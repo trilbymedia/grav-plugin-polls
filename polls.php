@@ -71,23 +71,13 @@ class PollsPlugin extends Plugin
         // Don't proceed if we are in the admin plugin
         if ($this->isAdmin()) {
             $this->enable([
-                'onAdminMenu' => ['onAdminMenu', 0],
-                'onTwigSiteVariables' => ['onTwigSiteVariables', 0],
-                'onDataTypeExcludeFromDataManagerPluginHook' => ['onDataTypeExcludeFromDataManagerPluginHook', 0],
+                'onTwigSiteVariables' => ['onTwigAdminSiteVariables', 0],
             ]);
-
-            if ($this->isPluginActiveAdmin($this->admin_route)) {
-                $this->enable([
-                    'onTwigTemplatePaths' => ['onTwigAdminTemplatePaths', 0],
-                    'onAdminTaskExecute' => ['onAdminTaskExecute', 0],
-                ]);
-            }
             return;
         }
 
         // Enable the main events we are interested in
         $this->enable([
-            'onTwigInitialized'   => ['onTwigInitialized', 0],
             'onTwigSiteVariables' => ['onTwigSiteVariables', 0],
             'onShortcodeHandlers' => ['onShortcodeHandlers', 0],
             'onTwigTemplatePaths' => ['onTwigTemplatePaths', 0],
@@ -124,40 +114,10 @@ class PollsPlugin extends Plugin
         $this->grav['shortcode']->registerAllShortcodes(__DIR__ . '/classes/shortcodes');
     }
 
-    public function onTwigAdminTemplatePaths()
+
+    public function onTwigAdminSiteVariables()
     {
-//        $this->grav['twig']->twig_paths[] = __DIR__ . '/admin/templates';
-    }
-
-    public function onAdminTaskExecute(Event $event)
-    {
-//        $controller = new PollsController($event['controller'], $event['method']);
-//
-//        return $controller->execute();
-    }
-
-    /**
-     * Add License Manager to admin menu
-     */
-    public function onAdminMenu()
-    {
-
-//        $this->grav['twig']->plugins_hooked_nav['PLUGIN_POLLS.TITLE'] = ['route' => $this->admin_route, 'icon' => 'fa-check-square'];
-    }
-
-    /**
-     * Exclude Polls from DataManager plugin
-     * @return void
-     */
-    public function onDataTypeExcludeFromDataManagerPluginHook()
-    {
-//        $this->grav['admin']->dataTypesExcludedFromDataManagerPlugin[] = 'polls';
-    }
-
-    public function onTwigInitialized()
-    {
-
-
+        $this->grav['assets']->addJs('plugin://polls/assets/admin/polls.js');
     }
 
     public function onTwigSiteVariables()

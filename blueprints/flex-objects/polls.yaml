@@ -140,8 +140,7 @@ form:
       _advanced:
         type: fieldset
         title: PLUGIN_POLLS.ADVANCED
-        collapsible: true
-        collapsed: true
+        collapsible: false
 
         fields:
           advanced.max_answers:

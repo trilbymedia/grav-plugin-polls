@@ -37,20 +37,12 @@ class PollsManager
 
     public function init()
     {
-//        $blueprint = new Blueprint('plugin://polls/admin/blueprints/polls.yaml');
-//        $blueprint->load();
-//        $this->blueprint = $blueprint;
-
         $flex = Grav::instance()['flex_objects'];
         $polls_dir = $flex->getDirectory('polls');
         $this->polls = $polls_dir->getCollection(); //->withPublished();
 
         $path = Grav::instance()['locator']->findResource('user-data://polls', true, true);
         $this->data_db = $path . '/polls.db';
-
-//        $data = new Data($this->data_file->content(), $this->blueprint);
-//        $data->file($this->data_file);
-//        $this->data = $data;
 
         $config = Grav::instance()['config']->get('plugins.polls');
         $this->config = new Config($config);
@@ -108,25 +100,6 @@ class PollsManager
         });
         return $polls;
     }
-
-//    public function addPoll(string $key, array $data)
-//    {
-//        $polls = $this->getPolls();
-//        $polls[$key] = $data;
-//        $this->setData(['polls' => $polls]);
-//    }
-
-
-//    public function getBlueprints()
-//    {
-//        return $this->blueprint;
-//    }
-//
-//    public function getData()
-//    {
-//        return $this->data;
-//    }
-
 
     public function saveOptions(string $id, array $options)
     {
@@ -242,7 +215,7 @@ class PollsManager
             return [400, $lang->translate('PLUGIN_POLLS.ERROR_HAS_VOTED')];
         }
 
-        $this->dataStoreVote($poll, $data);
+        $this->dataStoreVote($data);
 
         // Store vote_check in session if required
         if ($this->config->get('session_vote_check')) {
@@ -272,7 +245,7 @@ class PollsManager
     }
 
 
-    protected function dataStoreVote(PollObject $poll, array $data): bool
+    protected function dataStoreVote(array $data): bool
     {
         $id = $data['id'];
         $answers = $data['answers'] ?? [];
@@ -365,7 +338,6 @@ class PollsManager
         if (count($data_answers) < $poll['advanced']['min_answers'] || count($data_answers) > $poll['advanced']['max_answers']) {
             return false;
         }
-
 
         return true;
     }

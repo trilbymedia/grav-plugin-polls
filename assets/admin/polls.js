@@ -56,21 +56,6 @@ function addListenersToItems(item) {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-    const list = document.querySelector('ul[data-collection-holder]');
-    list.querySelectorAll('li[data-collection-item]').forEach(addListenersToItems);
-
-    // Observer to watch for new li elements
-    const observer = new MutationObserver(mutations => {
-        mutations.forEach(mutation => {
-            mutation.addedNodes.forEach(node => {
-                if (node.nodeType === Node.ELEMENT_NODE && node.matches('li[data-collection-item]')) {
-                    addListenersToItems(node);
-                }
-            });
-        });
-    });
-
-    // Configuration of the observer:
-    const config = { childList: true };
-    observer.observe(list, config);
+    const form = document.querySelector('.admin-polls form');
+    addListenersToItems(form);
 });
