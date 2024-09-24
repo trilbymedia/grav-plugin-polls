@@ -12,9 +12,7 @@ class PollObject extends GenericObject
 
     protected function offsetLoad_answers_count($value)
     {
-        $answers = $this->answers;
-
-        return count($answers);
+        return count($this->answers);
     }
 
     /**
@@ -30,9 +28,7 @@ class PollObject extends GenericObject
     {
         $polls = Grav::instance()['polls'];
         $results = $polls->getResults($this->id);
-        $total = array_sum($results);
-
-        return $total;
+        return array_sum($results);
     }
 
     /**
