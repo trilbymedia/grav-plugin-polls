@@ -35,14 +35,16 @@ config:
         list:
             title: question
             fields:
-                enabled:
+                published:
                     field:
                         type: toggle
-                        label: Enabled
+                        label: Published
                     width: 8
                 question:
                     link: edit
                 id:
+                votes:
+                answers_count:
 
         # Edit View
         edit:
@@ -195,3 +197,16 @@ form:
             size: medium
             readonly: true
             default: 'now'
+          votes:
+            type: number
+            label: Votes Received
+            size: small
+            append: votes
+            readonly: true
+            validate:
+              unset: true
+          answers_count:
+            type: hidden
+            label: Answers
+            validate:
+              unset: true
