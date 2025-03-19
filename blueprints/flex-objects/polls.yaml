@@ -53,7 +53,7 @@ config:
                     - 'flex/{TYPE}/object/{LAYOUT}{EXT}'
             defaults:
                 type: 'polls'
-                 layout: default
+                layout: default
     data:
         object: 'Grav\Plugin\Polls\Flex\PollObject'
         collection: 'Grav\Plugin\Polls\Flex\PollsCollection'
