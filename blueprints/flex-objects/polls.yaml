@@ -2,36 +2,22 @@ title: 'Polls'
 description: 'Polls'
 type: flex-objects
 
-# Flex Configuration
 config:
-    # Administration Configuration
     admin:
-        # Admin router (optional)
         router:
             path: '/polls'
-
-        # Admin menu (optional)
         menu:
             list:
                 route: '/polls'
                 title: 'Polls'
                 icon: fa-check-square
-                # Authorization to collection admin
                 authorize: ['admin.polls.list', 'admin.super']
-                # Priority -10 .. 10 (highest goes up)
                 priority: 2
-
-        # Admin template type / folder
         template: default
-
-        # Permissions
         permissions:
-            # Primary permissions
             admin.advertisements:
                 type: crudpl
                 label: 'Polls'
-
-        # List view
         list:
             title: question
             fields:
@@ -45,65 +31,42 @@ config:
                 id:
                 votes:
                 answers_count:
-
-        # Edit View
         edit:
             title:
                 template: '{{ object.question }}'
-
-        # Preview View
         preview:
             enabled: false
             route:
-            #template: '/plugins/flex-objects/directory:contacts'
-
-        # Data Export
         export:
             enabled: true
             method: 'jsonSerialize'
             formatter:
                 class: 'Grav\Framework\File\Formatter\YamlFormatter'
             filename: 'polls'
-
-    # Site Configuration
     site:
         templates:
             collection:
-                # Lookup for the template layout files for collections of objects
                 paths:
                     - 'flex/{TYPE}/collection/{LAYOUT}{EXT}'
             object:
-                # Lookup for the template layout files for objects
                 paths:
                     - 'flex/{TYPE}/object/{LAYOUT}{EXT}'
             defaults:
-                # Default template {TYPE}; overridden by filename of this blueprint if template folder exists
                 type: 'polls'
-                # Default template {LAYOUT}; can be overridden in render calls (usually Twig in templates)
-                layout: default
-
-    # Data Configuration
+                 layout: default
     data:
-        # Object class to be used, allowing custom methods for the object
         object: 'Grav\Plugin\Polls\Flex\PollObject'
-        # Collection class to be used, allowing custom methods for the collections
         collection: 'Grav\Plugin\Polls\Flex\PollsCollection'
-        # Index class to be used, works as a quick database-like lookup index
         index: 'Grav\Common\Flex\Types\Generic\GenericIndex'
         storage:
-            # Storage class, use single file storage (does not support images and assets)
             class: 'Grav\Framework\Flex\Storage\SimpleStorage'
             options:
                 formatter:
-                    # File formatter class, in this case the file is stored in markdown
                     class: 'Grav\Framework\File\Formatter\YamlFormatter'
-                # JSON file where all the objects will be stored
                 folder: user-data://polls/polls.yaml
         search:
-            # Search options
             options:
                 contains: 1
-            # Fields to be searched
             fields:
                 - question
                 - answers
@@ -199,7 +162,7 @@ form:
             default: 'now'
           votes:
             type: number
-            label: Votes Received
+            label: PLUGIN_POLLS.VOTES_RECEIVED
             size: small
             append: votes
             readonly: true
@@ -207,6 +170,6 @@ form:
               unset: true
           answers_count:
             type: hidden
-            label: Answers
+            label: PLUGIN_POLLS.ANSWERS
             validate:
               unset: true
